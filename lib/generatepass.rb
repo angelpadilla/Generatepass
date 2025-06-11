@@ -14,35 +14,86 @@ module Generatepass
   URL_UNSAFE = "=#%/:@&?".split(//)
   AMBIGUOUS = "B8G6I1l0OQDS5Z2Ss5Bb8|Iio01lO".split(//)
 
-  # Generates a password with the specified length and options.
-  #
-  # @param length [Integer] The length of the password. Defaults to 12.
-  # @param include_uppercase [Boolean] Whether to include uppercase letters. Defaults to true.
-  # @param include_symbols [Boolean] Whether to include symbols. Defaults to true.
-  # @param include_digits [Boolean] Whether to include digits. Defaults to true.
-  # @param exclude_ambiguous [Boolean] Whether to exclude ambiguous characters. Defaults to false.
-  # @param url_safe [Boolean] Whether the password should be URL safe. Defaults to false.
-  #
-  # @return [String] The generated password.
-  #
-  # @raise [ArgumentError] If the password length is less than 5.
-  #
-  # @example
-  #   Generatepass.gen
-  #   # => "Qwertyuiop"
-  #   Generatepass.gen(length: 20)
-  #   # => "Qwertyuiopasdfghjklzxcvbnm1234567890"
-  #   Generatepass.gen(include_uppercase: false)
-  #   # => "xl6#_q.+,sis"
-  #   Generatepass.gen(include_symbols: false)
-  #   # => "BSaF10pfaJty"
-  #   Generatepass.gen(include_digits: false)
-  #   # => "C:&!}E&UZ&am"
-  #   Generatepass.gen(exclude_ambiguous: true)
-  #   # => "VWs9]Qx77&}*"
-  #   Generatepass.gen(url_safe: true)
-  #   # => "LYLqE,N+(&Jm"
-  #
+  def self.docs
+    puts ""
+    puts "Generatepass Documentation"
+    puts "==========================="
+    puts ""
+    puts "This module provides methods to generate secure passwords and tokens."
+    puts ""
+    puts "## Methods"
+    puts ""
+    puts "* 'gen' - Generates a secure password with customizable options."
+    puts "* 'token_hex' - Generates a token in hexadecimal format using SHA-256 hashing."
+    puts "* 'token_base64' - Generates a token in base64 format using SHA-256 hashing."
+    puts "* 'token_base64b' - Generates a token in base64 (version 'b') format using Base64 encoding."
+    puts ""
+    puts "## Method Details"
+    puts ""
+    puts "### Generatepass.gen"
+    puts "Generates a password with the specified length and options."
+    puts "@param length [Integer] The length of the password. Defaults to 12."
+    puts "@param include_uppercase [Boolean] Whether to include uppercase letters. Defaults to true."
+    puts "@param include_symbols [Boolean] Whether to include symbols. Defaults to true."
+    puts "@param include_digits [Boolean] Whether to include digits. Defaults to true."
+    puts "@param exclude_ambiguous [Boolean] Whether to exclude ambiguous characters. Defaults to false."
+    puts "@param url_safe [Boolean] Whether the password should be URL safe. Defaults to false"
+    puts ""
+    puts "@return [String] The generated password."
+    puts ""
+    puts "@raise [ArgumentError] If the password length is less than 5."
+    puts ""
+    puts "@example"
+    puts "  Generatepass.gen"
+    puts "  # => \"Qwertyuiop\""
+    puts "  Generatepass.gen(length: 20)"
+    puts "  # => \"Qwertyuiopasdfghjklzxcvbnm1234567890\""
+    puts "  Generatepass.gen(include_uppercase: false)"
+    puts "  # => \"xl6#_q.+,sis\""
+    puts "  Generatepass.gen(include_symbols: false)"
+    puts "  # => \"BSaF10pfaJty\""
+    puts "  Generatepass.gen(include_digits: false)"
+    puts "  # => \"C:&!}E&UZ&am\""
+    puts "  Generatepass.gen(exclude_ambiguous: true)"
+    puts "  # => \"VWs9]Qx77&}*\""
+    puts "  Generatepass.gen(url_safe: true)"
+    puts "  # => \"LYLqE,N+(&Jm\""
+    puts ""
+    puts "### Generatepass.token_hex"
+    puts "Generates a token in hexadecimal format using SHA-256 hashing."
+    puts ""
+    puts "@return [String] A hexadecimal string representing the token."
+    puts ""
+    puts "@example"
+    puts "  Generatepass.token_hex"
+    puts "  # => \"5e22d42c3e8a6509cd873f0cfdbc53b2d5f4b0c2ef695a4c8442a2e7b7ea7a79\""
+    puts ""
+    puts "### Generatepass.token_base64"
+    puts "Generates a token in base64 format using SHA-256 hashing."
+    puts "@param url_safe [Boolean] Whether the token should be URL safe. Defaults to false."
+    puts ""
+    puts "@return [String] A base64 string representing the token."
+    puts ""
+    puts "@example"
+    puts "  Generatepass.token_base64"
+    puts "  # => \"2ok5bRvyKEYWIOSLrsa4qzXGk7dadWwUZXBinWguhSE=\""
+    puts "  Generatepass.token_base64(url_safe: true)"
+    puts "  # => \"GSJ6nTJ96Js9pn6CEh54VJplcFCK64BZHnc3lBO8HI\""
+    puts ""
+    puts "### Generatepass.token_base64b"
+    puts "Generates a token in base64 (version 'b') format using Base64 encoding."
+    puts "@param url_safe [Boolean] Whether the token should be URL safe. Defaults to false."
+    puts ""
+    puts "@return [String] A base64 string representing the token."
+    puts ""
+    puts "@example"
+    puts "  Generatepass.token_base64b"
+    puts "  # => \"MTcyNTQxMzQ2OTgxNTc0NjIwMTY1ODYzMDk=\""
+    puts "  Generatepass.token_base64b(url_safe: true)"
+    puts "  # => \"MTcyNTQxMzQ1ODUzNjAyMDg3NjY0NTYwMzk\""
+    puts ""
+  end
+
   def self.gen(length: 12, include_uppercase: true, include_symbols: true, include_digits: true, exclude_ambiguous: false, url_safe: false)
     raise ArgumentError, "Minimum password length is 5" if length < 5
     raise ArgumentError, ":length must be an integer" if length.class != Integer
